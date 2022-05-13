@@ -1,37 +1,25 @@
 import React from "react";
 import styled from "styled-components";
-
+import { selectMovies } from "D:/Other/Random Projects and tests/Ragam Test Site/Disney-Plus/disney-plus-clone/src/features/movie/movieSlice";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 function Movies() {
+  const movies = useSelector(selectMovies);
+  // console.log(movies);
   return (
     <Container>
       <h3>Recommended For You</h3>
       <Content>
-        <Wrap>
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrtcjHG3G-RVw6sOBrZ99tw8x6TVST7hnc8w&usqp=CAU"
-            alt=""
-          />
-        </Wrap>
-        <Wrap>
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrtcjHG3G-RVw6sOBrZ99tw8x6TVST7hnc8w&usqp=CAU"
-            alt=""
-          />
-        </Wrap>
-        <Wrap>
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrtcjHG3G-RVw6sOBrZ99tw8x6TVST7hnc8w&usqp=CAU"
-            alt=""
-          />
-        </Wrap>
-        <Wrap>
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrtcjHG3G-RVw6sOBrZ99tw8x6TVST7hnc8w&usqp=CAU"
-            alt=""
-          />
-        </Wrap>
+        {movies &&
+          movies.map((movie) => (
+            <Wrap key={movie.id}>
+              <Link to={`/details/${movie.id}`}>
+                <img src={movie.cardImg} />
+              </Link>
+            </Wrap>
+          ))}
       </Content>
-      <h3>Trending Now</h3>
+      {/* <h3>Trending Now</h3>
       <Content>
         <Wrap>
           <img
@@ -57,7 +45,7 @@ function Movies() {
             alt=""
           />
         </Wrap>
-      </Content>
+      </Content> */}
     </Container>
   );
 }

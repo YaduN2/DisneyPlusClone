@@ -1,40 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
+import db from "D:/Other/Random Projects and tests/Ragam Test Site/Disney-Plus/disney-plus-clone/src/firebase.js";
 
 function Details() {
+  const { id } = useParams();
+  const [movie, setMovie] = useState();
+
+  useEffect(() => {
+    db.collection("movies")
+      .doc(id)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          setMovie(doc.data());
+        } else {
+        }
+      });
+  }, []);
+
   return (
     <Container>
-      <Background>
-        <img
-          src="https://images.unsplash.com/photo-1541497613813-0780960684f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-          alt=""
-        />
-      </Background>
-      <ImageTitle>
-        <img src="images\viewers-marvel.png" alt="" />
-      </ImageTitle>
-      <Controls>
-        <PlayButton>
-          <img src="images\play-icon-black.png" alt="" />
-          <span>Play</span>
-        </PlayButton>
-        <TrailerButton>
-          <img src="images\play-icon-white.png" alt="" />
-          <span>Trailer</span>
-        </TrailerButton>
-        <AddButton>
-          <span>+</span>
-        </AddButton>
-        <GroupWatchButton>
-          <img src="images\group-icon.png" alt="" />
-        </GroupWatchButton>
-      </Controls>
-      <SubTitle>ABC ABC ABC BABC BCABB CABBCABCBABCBAB</SubTitle>
-      <Description>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat eum
-        beatae eligendi aliquam dolorum quas quidem repellendus. Natus in id
-        ratione impedit nulla laborum quos et aut ex, tempora distinctio!
-      </Description>
+      {movie && (
+        <>
+          <Background>
+            <img src={movie.backgroundImg} alt="" />
+          </Background>
+          <ImageTitle>
+            <img src={movie.titleImg} alt="" />
+          </ImageTitle>
+          <Controls>
+            <PlayButton>
+              <img src="/images/play-icon-black.png" alt="" />
+              <span>Play</span>
+            </PlayButton>
+            <TrailerButton>
+              <img src="/images/play-icon-white.png" alt="" />
+              <span>Trailer</span>
+            </TrailerButton>
+            <AddButton>
+              <span>+</span>
+            </AddButton>
+            <GroupWatchButton>
+              <img src="/images/group-icon.png" alt="" />
+            </GroupWatchButton>
+          </Controls>
+          <SubTitle>{movie.subTitle}</SubTitle>
+          <Description>{movie.description}</Description>
+        </>
+      )}
     </Container>
   );
 }
